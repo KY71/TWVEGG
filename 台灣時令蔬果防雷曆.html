@@ -1,0 +1,889 @@
+<title>台灣時令蔬果防雷曆</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@500;700;900&display=swap">
+<style>
+  :root{
+    --bg:#F5F7EF; --surface:#FCFDF8; --surface-2:#EDF1E3; --raise:#FFFFFF;
+    --ink:#1C2418; --ink-soft:#586151; --ink-faint:#8A9480;
+    --line:#DBE2CE; --line-soft:#E7EBDD;
+    --veg:#3B7A32; --veg-bg:#E3F0D7; --veg-ink:#27591F; --veg-line:#BEDCA9;
+    --fruit:#CF7614; --fruit-bg:#FBE8CF; --fruit-ink:#8F5310; --fruit-line:#EFCF9D;
+    --imp:#3E6EA5; --imp-bg:#E4ECF6; --imp-ink:#2A4E78; --imp-line:#BED0E7;
+    --accent:#357A38;
+    --warn:#BB3F2A; --warn-bg:#F8E1DB; --warn-ink:#8C2C1C;
+    --shadow:0 1px 2px rgba(31,40,24,.05),0 8px 24px -12px rgba(31,40,24,.18);
+    --shadow-lg:0 2px 4px rgba(31,40,24,.06),0 24px 48px -20px rgba(31,40,24,.28);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#11150D; --surface:#191F12; --surface-2:#212917; --raise:#232C18;
+      --ink:#ECF1E2; --ink-soft:#A6B199; --ink-faint:#6E7A61;
+      --line:#333D25; --line-soft:#2A3220;
+      --veg:#82C66E; --veg-bg:#22321A; --veg-ink:#B2E39B; --veg-line:#3A4E2A;
+      --fruit:#E7A353; --fruit-bg:#38290F; --fruit-ink:#F1C588; --fruit-line:#4E3A18;
+      --imp:#84AAD6; --imp-bg:#1B2838; --imp-ink:#B4CBE7; --imp-line:#2F4661;
+      --accent:#82C66E;
+      --warn:#E27459; --warn-bg:#3A1D15; --warn-ink:#F0A491;
+      --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px -14px rgba(0,0,0,.6);
+      --shadow-lg:0 2px 6px rgba(0,0,0,.45),0 28px 56px -22px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#11150D; --surface:#191F12; --surface-2:#212917; --raise:#232C18;
+    --ink:#ECF1E2; --ink-soft:#A6B199; --ink-faint:#6E7A61;
+    --line:#333D25; --line-soft:#2A3220;
+    --veg:#82C66E; --veg-bg:#22321A; --veg-ink:#B2E39B; --veg-line:#3A4E2A;
+    --fruit:#E7A353; --fruit-bg:#38290F; --fruit-ink:#F1C588; --fruit-line:#4E3A18;
+    --imp:#84AAD6; --imp-bg:#1B2838; --imp-ink:#B4CBE7; --imp-line:#2F4661;
+    --accent:#82C66E;
+    --warn:#E27459; --warn-bg:#3A1D15; --warn-ink:#F0A491;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px -14px rgba(0,0,0,.6);
+    --shadow-lg:0 2px 6px rgba(0,0,0,.45),0 28px 56px -22px rgba(0,0,0,.7);
+  }
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+    line-height:1.65; font-size:16px; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1000px;margin:0 auto;padding:0 20px}
+  h1,h2,h3{font-family:"Noto Serif TC",serif;text-wrap:balance;margin:0}
+  .tnum{font-variant-numeric:tabular-nums}
+
+  header{padding:44px 0 8px}
+  .topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+  .eyebrow{font-size:12px;letter-spacing:.22em;color:var(--accent);font-weight:700;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+  .eyebrow::before{content:"";width:26px;height:2px;background:var(--accent);border-radius:2px}
+  h1{font-size:clamp(30px,6.2vw,50px);font-weight:900;line-height:1.12;letter-spacing:.01em}
+  .lede{margin-top:16px;max-width:60ch;color:var(--ink-soft);font-size:clamp(15px,2.4vw,17px)}
+  .lede b{color:var(--ink);font-weight:700}
+  .toggle{flex:none;margin-top:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink-soft);border-radius:999px;padding:8px 14px;font:inherit;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;font-weight:500}
+  .toggle:hover{border-color:var(--accent);color:var(--ink)}
+
+  /* ---------- quick lookup (in header, no scrolling needed) ---------- */
+  .quick-look{margin-top:22px;position:relative}
+  .quick-look .ql-icon{position:absolute;left:16px;top:23px;font-size:16px;opacity:.55;pointer-events:none}
+  .quick-look input{width:100%;font:inherit;font-size:16px;padding:14px 16px 14px 44px;border-radius:12px;border:1.5px solid var(--line);background:var(--raise);color:var(--ink)}
+  .quick-look input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 18%,transparent)}
+  .quick-look input::placeholder{color:var(--ink-faint)}
+  #resultTop.lookup-result{margin-top:14px}
+
+  section{margin-top:38px}
+
+  /* ---------- timeline slider ---------- */
+  .timeline{margin-bottom:22px;padding:8px 4px 0}
+  .tl-bubble{
+    display:inline-block;font-family:"Noto Serif TC",serif;font-weight:700;font-size:15px;
+    color:#fff;background:var(--accent);padding:5px 13px;border-radius:9px;
+    position:relative;transform:translateX(-50%);white-space:nowrap;box-shadow:var(--shadow);
+    transition:left .05s linear;
+  }
+  :root[data-theme="dark"] .tl-bubble, :root:not([data-theme="light"]) .tl-bubble{color:#11150D}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tl-bubble{color:#11150D}}
+  .tl-bubble::after{content:"";position:absolute;left:50%;bottom:-5px;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--accent);border-bottom:0}
+  .tl-bubble .sub{font-family:"Noto Sans TC",sans-serif;font-weight:500;opacity:.9;font-size:13px;margin-left:5px}
+  .tl-track-wrap{position:relative;margin-top:4px}
+  input[type=range]{
+    -webkit-appearance:none;appearance:none;width:100%;height:34px;background:transparent;
+    margin:0;cursor:grab;position:relative;z-index:3;
+  }
+  input[type=range]:active{cursor:grabbing}
+  input[type=range]::-webkit-slider-runnable-track{height:34px;background:transparent}
+  input[type=range]::-moz-range-track{height:34px;background:transparent}
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;appearance:none;width:24px;height:34px;border-radius:9px;
+    background:var(--accent);border:3px solid var(--surface);box-shadow:var(--shadow-lg);cursor:grab;
+  }
+  input[type=range]:active::-webkit-slider-thumb{cursor:grabbing}
+  input[type=range]::-moz-range-thumb{width:20px;height:30px;border-radius:9px;background:var(--accent);border:3px solid var(--surface);box-shadow:var(--shadow-lg);cursor:grab}
+  input[type=range]:focus-visible::-webkit-slider-thumb{outline:2.5px solid var(--accent);outline-offset:3px}
+  .tl-rail{position:absolute;left:0;right:0;top:13px;height:8px;border-radius:6px;background:var(--surface-2);border:1px solid var(--line);z-index:1}
+  .tl-rail::after{content:"";position:absolute;inset:0;border-radius:6px;background:repeating-linear-gradient(90deg,transparent 0,transparent calc(100%/12 - 1px),var(--line) calc(100%/12 - 1px),var(--line) calc(100%/12));opacity:.6}
+  .tl-today{position:absolute;top:4px;width:2px;height:26px;background:var(--warn);z-index:2;border-radius:2px}
+  .tl-today span{position:absolute;top:-17px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:700;color:var(--warn);white-space:nowrap}
+  .tl-months{display:grid;grid-template-columns:repeat(12,1fr);margin-top:10px;gap:0}
+  .tl-m{text-align:center;font-size:12px;font-weight:700;color:var(--ink-faint);position:relative;padding-top:8px;cursor:pointer}
+  .tl-m::before{content:"";position:absolute;top:0;left:50%;width:1px;height:5px;background:var(--line);transform:translateX(-50%)}
+  .tl-m.cur{color:var(--accent)}
+  .tl-hint-row{display:flex;justify-content:center;align-items:center;gap:12px;margin-top:14px;flex-wrap:wrap}
+  .tl-hint{font-size:12px;color:var(--ink-faint);text-align:center}
+  .today-btn{font:inherit;font-size:12px;font-weight:700;color:var(--veg-ink);background:var(--veg-bg);border:1px solid var(--veg-line);border-radius:999px;padding:5px 13px;cursor:pointer;white-space:nowrap}
+  .today-btn:hover:not(:disabled){border-color:var(--veg)}
+  .today-btn:disabled{opacity:.4;cursor:default}
+
+  /* ---------- board ---------- */
+  .board{background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow-lg);overflow:hidden}
+  .board-head{padding:20px 26px;border-bottom:1px solid var(--line-soft);display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;background:linear-gradient(180deg,var(--surface-2),transparent)}
+  .board-legend-top{display:flex;gap:14px;flex-wrap:wrap;padding:10px 26px;border-bottom:1px solid var(--line-soft);font-size:11.5px;color:var(--ink-soft);background:var(--surface)}
+  .board-legend-top span{display:inline-flex;align-items:center;gap:5px}
+  .spotlight{display:none;gap:8px;flex-wrap:wrap;align-items:center;padding:14px 26px;border-bottom:1px solid var(--line-soft);background:var(--veg-bg)}
+  .spotlight.show{display:flex}
+  .spotlight .lbl{font-size:12px;font-weight:700;color:var(--veg-ink);margin-right:2px}
+  .board-month{font-size:clamp(24px,5vw,36px);font-weight:900;line-height:1}
+  .board-month small{font-family:"Noto Sans TC",sans-serif;font-size:14px;font-weight:500;color:var(--ink-faint);margin-left:10px}
+  .board-date{font-size:13px;color:var(--ink-soft);font-weight:500}
+  .board-date b{color:var(--accent);font-weight:700}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:0}
+  .col{padding:20px 26px}
+  .col+.col{border-left:1px solid var(--line-soft)}
+  .col-title{font-size:14px;font-weight:700;display:flex;align-items:center;gap:9px;margin-bottom:16px}
+  .col-title .dot{width:11px;height:11px;border-radius:50%}
+  .col-title .ct{margin-left:auto;font-size:12px;font-weight:500;color:var(--ink-faint)}
+  .veg .dot{background:var(--veg)} .fruit .dot{background:var(--fruit)}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;position:relative;align-content:flex-start}
+  .yr-sep{display:none;align-items:center;gap:9px;margin:18px 0 12px;font-size:11.5px;color:var(--ink-faint);letter-spacing:.02em}
+  .yr-sep.show{display:flex}
+  .yr-sep::before,.yr-sep::after{content:"";height:1px;background:var(--line-soft);flex:1}
+  .chips.yr .chip{opacity:.62;background:var(--surface-2);border-color:var(--line);color:var(--ink-soft)}
+  .fruit .chips.yr .chip{background:var(--surface-2);color:var(--ink-soft)}
+  .chips.yr .chip:hover{opacity:1}
+
+  .chip{
+    font-size:14px;font-weight:500;padding:6px 11px;border-radius:9px;border:1px solid transparent;
+    white-space:nowrap;display:inline-flex;align-items:center;
+    transition:transform .5s cubic-bezier(.22,.61,.36,1), opacity .38s ease;
+    will-change:transform,opacity;
+  }
+  .veg .chip, .chip.veg{background:var(--veg-bg);color:var(--veg-ink);border-color:var(--veg-line)}
+  .fruit .chip, .chip.fruit{background:var(--fruit-bg);color:var(--fruit-ink);border-color:var(--fruit-line)}
+  .chip.entering{opacity:0;transform:scale(.82)}
+  .chip.leaving{opacity:0;transform:scale(.82);pointer-events:none}
+  .chip .tag{font-size:9px;font-weight:700;padding:1px 5px;border-radius:6px;margin-left:6px;letter-spacing:.04em;line-height:1.4}
+  .chip .tag.new{background:var(--veg);color:#fff}
+  .fruit .chip .tag.new{background:var(--fruit);color:#fff}
+  .chip .tag.last{background:var(--warn);color:#fff}
+  .chip .flag{margin-left:6px;display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:var(--imp-bg);color:var(--imp-ink);border:1px solid var(--imp-line);font-size:9.5px;flex:none}
+  :root[data-theme="dark"] .chip .tag.new, :root:not([data-theme="light"]) .chip .tag.new,
+  :root[data-theme="dark"] .chip .tag.last, :root:not([data-theme="light"]) .chip .tag.last{color:#11150D}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .chip .tag{color:#11150D}}
+
+  .legend{display:flex;gap:16px;flex-wrap:wrap;padding:13px 26px;border-top:1px solid var(--line-soft);font-size:12px;color:var(--ink-soft);background:var(--surface-2)}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .lg{width:20px;height:14px;border-radius:5px;display:inline-block;flex:none}
+  .lg.new{background:var(--veg)} .lg.last{background:var(--warn)}
+  .lg.imp{background:var(--imp-bg);border:1px solid var(--imp-line)}
+
+  /* ---------- lookup ---------- */
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);padding:26px}
+  .sec-eyebrow{font-size:12px;letter-spacing:.2em;color:var(--accent);font-weight:700;text-transform:uppercase;margin-bottom:8px}
+  h2{font-size:clamp(22px,4vw,28px);font-weight:900;margin-bottom:6px}
+  .sec-sub{color:var(--ink-soft);max-width:64ch;margin-bottom:22px;font-size:15px}
+  #q{width:100%;font:inherit;font-size:17px;padding:14px 16px;border-radius:12px;border:1.5px solid var(--line);background:var(--raise);color:var(--ink)}
+  #q:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 18%,transparent)}
+  #q::placeholder{color:var(--ink-faint)}
+  .suggest{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+  .suggest b{font-size:12px;color:var(--ink-faint);width:100%;font-weight:500;letter-spacing:.03em}
+  .sg{font:inherit;font-size:13px;cursor:pointer;border:1px solid var(--line);background:var(--surface-2);color:var(--ink-soft);border-radius:8px;padding:5px 10px}
+  .sg:hover{border-color:var(--accent);color:var(--ink)}
+  .lookup-result{margin-top:22px;display:none}
+  .lookup-result.show{display:block;animation:fade .3s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .verdict{border-radius:14px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start;border:1px solid;font-size:15px;line-height:1.55}
+  .verdict .vi{font-size:22px;line-height:1;flex:none;margin-top:1px}
+  .verdict .vt{font-weight:700;font-family:"Noto Serif TC",serif;font-size:17px;display:block;margin-bottom:2px}
+  .v-good{background:var(--veg-bg);border-color:var(--veg-line);color:var(--veg-ink)}
+  .v-warn{background:var(--warn-bg);border-color:var(--warn);color:var(--warn-ink)}
+  .v-year{background:var(--surface-2);border-color:var(--line);color:var(--ink-soft)}
+  .imp-note{margin-top:12px;background:var(--imp-bg);border:1px dashed var(--imp-line);color:var(--imp-ink);border-radius:12px;padding:12px 15px;font-size:14px;line-height:1.55;display:flex;gap:10px}
+  .imp-note .ii{flex:none;font-size:16px}
+  .strip{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin-top:16px}
+  .cell{text-align:center;font-size:12px;font-weight:700;padding:9px 0;border-radius:7px;background:var(--surface-2);color:var(--ink-faint);border:1px solid transparent}
+  .cell.on{background:var(--veg-bg);color:var(--veg-ink);border-color:var(--veg-line)}
+  .cell.fruit-on{background:var(--fruit-bg);color:var(--fruit-ink);border-color:var(--fruit-line)}
+  .cell.cur{outline:2.5px solid var(--accent);outline-offset:1px}
+  .strip-note{font-size:12px;color:var(--ink-faint);margin-top:9px}
+
+  /* ---------- hover 產季走勢 popover ---------- */
+  .chip{cursor:pointer}
+  .pop{
+    position:fixed;z-index:50;width:270px;background:var(--surface);border:1px solid var(--line);
+    border-radius:14px;box-shadow:var(--shadow-lg);padding:14px 15px 12px;pointer-events:none;
+    opacity:0;transform:translateY(4px);transition:opacity .16s ease,transform .16s ease;
+  }
+  .pop.show{opacity:1;transform:none}
+  .pop-h{display:flex;align-items:center;gap:8px;margin-bottom:2px}
+  .pop-h .pd{width:10px;height:10px;border-radius:50%;flex:none}
+  .pop-h.veg .pd{background:var(--veg)} .pop-h.fruit .pd{background:var(--fruit)}
+  .pop-h b{font-family:"Noto Serif TC",serif;font-size:16px;font-weight:700;color:var(--ink)}
+  .pop-status{font-size:12.5px;font-weight:700;margin:2px 0 8px}
+  .pop-status.good{color:var(--veg)} .pop-status.warn{color:var(--warn)} .pop-status.year{color:var(--ink-faint)}
+  .curve{display:block;width:100%;height:auto}
+  .curve .area{opacity:.2} .curve .line{fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+  .curve.veg .area{fill:var(--veg)} .curve.veg .line{stroke:var(--veg)}
+  .curve.fruit .area{fill:var(--fruit)} .curve.fruit .line{stroke:var(--fruit)}
+  .curve .base{stroke:var(--line);stroke-width:1}
+  .curve .now{stroke:var(--warn);stroke-width:1.5;stroke-dasharray:3 2}
+  .curve .nowdot{fill:var(--warn)}
+  .curve .sel{stroke:var(--imp);stroke-width:1.5}
+  .curve .seldot{fill:var(--imp)}
+  .curve .price{fill:none;stroke:var(--ink-faint);stroke-width:1.3;stroke-dasharray:1 2.5;stroke-linecap:round;opacity:.85}
+  .curve .mlabel{fill:var(--ink-faint);font-size:7px;font-family:"Noto Sans TC",sans-serif}
+  .curve .mlabel.cur{fill:var(--warn);font-weight:700}
+  .curve .mlabel.sel{fill:var(--imp);font-weight:700}
+  .curve .nowtx{fill:var(--warn);font-size:7.5px;font-weight:700;font-family:"Noto Sans TC",sans-serif}
+  .curve .seltx{fill:var(--imp);font-size:7.5px;font-weight:700;font-family:"Noto Sans TC",sans-serif}
+  .pop-legend{display:flex;flex-wrap:wrap;gap:9px;font-size:10px;color:var(--ink-faint);margin-top:6px}
+  .pop-legend span{display:inline-flex;align-items:center;gap:4px}
+  .pop-legend i{width:12px;height:0;border-top:2px solid;flex:none}
+  .pop-legend i.now{border-color:var(--warn);border-top-style:dashed}
+  .pop-legend i.sel{border-color:var(--imp)}
+  .pop-legend i.price{border-color:var(--ink-faint);border-top-style:dotted}
+  .pop-cap{font-size:10.5px;color:var(--ink-faint);line-height:1.45;margin-top:7px}
+  .pop-imp{font-size:11.5px;color:var(--imp-ink);background:var(--imp-bg);border:1px dashed var(--imp-line);border-radius:8px;padding:6px 9px;margin-top:8px;line-height:1.45}
+  @media (prefers-reduced-motion:reduce){.pop{transition:none}}
+
+  /* ---------- tips ---------- */
+  .tips{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  .tip{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px 22px;box-shadow:var(--shadow)}
+  .tip .n{font-family:"Noto Serif TC",serif;font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.05em;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+  .tip .n .k{width:24px;height:24px;border-radius:7px;background:var(--veg-bg);color:var(--veg-ink);display:inline-flex;align-items:center;justify-content:center;font-size:13px}
+  .tip h3{font-size:17px;font-weight:700;margin-bottom:7px;line-height:1.35}
+  .tip p{margin:0;font-size:14px;color:var(--ink-soft);line-height:1.6}
+  .tip p b{color:var(--ink)}
+
+  footer{margin:52px 0 40px;padding-top:24px;border-top:1px solid var(--line);color:var(--ink-faint);font-size:13px;line-height:1.7}
+  footer a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+  footer a:hover{border-bottom-color:var(--accent)}
+  footer .src{margin-top:10px}
+  footer .note{margin-top:10px;font-size:12px}
+
+  @media (max-width:640px){
+    .cols{grid-template-columns:1fr}
+    .col+.col{border-left:none;border-top:1px solid var(--line-soft)}
+    .tips{grid-template-columns:1fr}
+    .board-head,.col,.legend{padding-left:18px;padding-right:18px}
+    header{padding:32px 0 4px}
+    .tl-m{font-size:11px}
+    .strip .cell{font-size:11px;padding:7px 0}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .chip{transition:none}
+    .lookup-result.show{animation:none}
+    .tl-fill,.tl-bubble{transition:none}
+  }
+  :focus-visible{outline:2.5px solid var(--accent);outline-offset:2px;border-radius:4px}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="topbar">
+      <div>
+        <div class="eyebrow">台灣 · 產地產季 · 自主查證</div>
+        <h1>台灣時令蔬果<br>防雷曆</h1>
+      </div>
+      <button class="toggle" id="themeBtn" type="button" aria-label="切換深淺色">🌗 <span>主題</span></button>
+    </div>
+    <p class="lede">攤商可以對「產地」說謊，但<b>當季不當季騙不了人</b>。非產季卻標「在地」，很可能是進口或洗產地。</p>
+    <div class="quick-look">
+      <span class="ql-icon" aria-hidden="true">🔍</span>
+      <input id="qTop" type="text" list="allList" placeholder="先查一樣東西，例如：番茄、芒果…" autocomplete="off" aria-label="快速查詢蔬果名稱">
+    </div>
+    <div id="resultTop" class="lookup-result" role="status" aria-live="polite"></div>
+  </header>
+
+  <section aria-label="時令看板">
+    <div class="timeline">
+      <div style="position:relative;height:30px"><div class="tl-bubble" id="bubble" style="left:50%"></div></div>
+      <div class="tl-track-wrap">
+        <div class="tl-rail"></div>
+        <div class="tl-today" id="tlToday"><span>今天</span></div>
+        <input type="range" id="slider" min="0" max="35" step="1" value="0" aria-label="選擇月份與旬（上中下旬）">
+      </div>
+      <div class="tl-months" id="tlMonths"></div>
+      <div class="tl-hint-row">
+        <div class="tl-hint">← 拖動滑桿切換「月‧旬」，下方看板即時更新 →</div>
+        <button class="today-btn" id="todayBtn" type="button">回到今天</button>
+      </div>
+    </div>
+
+    <div class="board">
+      <div class="board-head">
+        <div class="board-month" id="boardMonth"></div>
+        <div class="board-date" id="boardDate"></div>
+      </div>
+      <div class="board-legend-top">
+        <span><i class="lg new"></i>新上市</span>
+        <span><i class="lg last"></i>把握最後</span>
+        <span><i class="lg imp"></i>⚑ 常見進口，務必查產地</span>
+      </div>
+      <div class="spotlight" id="spotlight"></div>
+      <div class="cols">
+        <div class="col veg">
+          <div class="col-title"><span class="dot"></span>當季蔬菜<span class="ct" id="vegCount"></span></div>
+          <div class="chips" id="vegChips"></div>
+          <div class="yr-sep" id="vegYrSep"></div>
+          <div class="chips yr" id="vegYr"></div>
+        </div>
+        <div class="col fruit">
+          <div class="col-title"><span class="dot"></span>當季水果<span class="ct" id="fruitCount"></span></div>
+          <div class="chips" id="fruitChips"></div>
+          <div class="yr-sep" id="fruitYrSep"></div>
+          <div class="chips yr" id="fruitYr"></div>
+        </div>
+      </div>
+      <div class="legend">
+        <span><i class="lg new"></i>新上市：剛進產季，最新鮮</span>
+        <span><i class="lg last"></i>把握最後：接近尾聲要退場</span>
+        <span><i class="lg imp"></i>⚑ 常見進口：就算產季也常有進口，務必查產地</span>
+        <span style="color:var(--ink-faint)">排序：產季越短、越晚進入當月的排越前（季節限定與新進品在最上）</span>
+      </div>
+    </div>
+  </section>
+
+  <section aria-label="反查工具">
+    <div class="card">
+      <div class="sec-eyebrow">照妖鏡</div>
+      <h2>這樣東西，現在該不該買？</h2>
+      <p class="sec-sub">輸入或點選一種蔬菜、水果，馬上知道它<b>台灣本地幾月才當季</b>。現在不是產季卻標「台灣在地」，就要提高警覺；就算在產季，遇到常進口的品項也別大意。</p>
+      <input id="q" type="text" list="allList" placeholder="例如：高麗菜、芒果、番茄…" autocomplete="off" aria-label="輸入蔬果名稱">
+      <datalist id="allList"></datalist>
+      <div class="suggest" id="suggest"><b>常見／容易被洗產地的品項：</b></div>
+      <div id="result" class="lookup-result" role="status" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section aria-label="防雷四招">
+    <div class="sec-eyebrow" style="margin-left:2px">不靠攤商誠實</div>
+    <h2 style="margin:0 0 18px 2px">一般人也能用的防雷四招</h2>
+    <div class="tips">
+      <div class="tip">
+        <div class="n"><span class="k">1</span>產季反推法</div>
+        <h3>先問自己「現在是它的季節嗎」</h3>
+        <p>最快的一招，不用任何工具。用這張曆反查：<b>非產季卻標「台灣在地」，高機率是進口或洗產地</b>。例如夏天出現大量「本地」結球白菜、或冬天的「本地」荔枝，都很可疑。</p>
+      </div>
+      <div class="tip">
+        <div class="n"><span class="k">2</span>掃產銷履歷 QR</div>
+        <h3>條碼比嘴巴誠實</h3>
+        <p>認明<b>產銷履歷（TAP）</b>標章，用手機掃 QR Code，可查到生產者、產地與農藥檢驗紀錄。查詢：<b>產銷履歷農產品資訊網</b>。有機農產品也有可查證的驗證標章與字號。</p>
+      </div>
+      <div class="tip">
+        <div class="n"><span class="k">3</span>看原產地標示與批號</div>
+        <h3>進口的依法要標國別</h3>
+        <p>賣場、包裝蔬果<b>依法須標示原產地（國）</b>；散裝進口蔬果也應揭示。看到「泰國」「越南」「中國」等字樣就心裡有數；標示含糊、遮蓋或只寫「產地：台灣」卻是非產季，就別急著買。</p>
+      </div>
+      <div class="tip">
+        <div class="n"><span class="k">4</span>價格與傳統市場問法</div>
+        <h3>當季盛產通常便宜</h3>
+        <p>當季量大、價格親民；<b>非當季卻標本地又不貴，來源就要問清楚</b>。傳統市場沒標示時，直接問「哪裡產的？今天到的？」，再用產季自己驗證——<b>不能只信口頭</b>。</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="wrap" style="padding-left:0;padding-right:0">
+    <div>資料來源為農業部公開的<b>「各月份可供應之國產蔬菜、水果品項參考資料」</b>與農業知識入口網盛產月份資料。官方產季以「月」為單位，本頁的<b>上／中／下旬</b>用來表達同一月內「剛上市 → 盛產 → 把握最後」的強弱，非另有旬別數據。</div>
+    <div class="note">「就算產季也常有進口」的標記，依據農業部進出口統計與公開報導的大宗進口品項（如蘋果、葡萄、櫻桃、柑橘、大蒜、洋蔥等）整理，為<b>提醒查證用的燈號，非個別攤位的判定</b>。<b>盛產期修正</b>：官方月表為「可供應」（含庫存、設施），對少數品項高估，已依實際農業資料收斂——番茄（秋冬平地）、花椰菜（涼季 10–5 月）、扁蒲（暖季）、甜瓜（春末至初秋）；並將番茄拆為大番茄／小番茄分別列出（小番茄產區與海拔較廣，產季略長）；產季達 11 個月以上者（葉菜、菇類、高麗菜、蔥、韭菜、地瓜、芭樂、香蕉等）為連續生產或可庫存，標為「全年供應」、不作季節判斷。實際供應會因產地、天候、庫存與品種而異。</div>
+    <div class="src">查證管道：<a href="https://taft.moa.gov.tw/" target="_blank" rel="noopener">產銷履歷農產品資訊網</a>　·　<a href="https://amis.afa.gov.tw/" target="_blank" rel="noopener">農產品批發市場交易行情站</a>　·　<a href="https://www.afa.gov.tw/cht/index.php?code=list&ids=1103" target="_blank" rel="noopener">農糧署 產地產期查詢</a></div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var V = {
+    1:["花椰菜","青花菜","甜瓜","胡瓜","扁蒲","豌豆","甜椒","辣椒","番茄","小番茄","梨瓜","菜豆","南瓜","甘藍","結球白菜","結球萵苣","菠菜","芥菜","小白菜","蕹菜","青江白菜","油菜","小芥菜","山蘇","葉萵苣","龍鬚菜","過溝菜蕨","芥藍","茼蒿","芹菜","青蔥","洋蔥","蘿蔔","胡蘿蔔","馬鈴薯","韭菜","芋","球莖甘藍","甘藷","香菇","金針菇","杏鮑菇","芽菜類","冷凍蔬菜類"],
+    2:["花椰菜","青花菜","甜瓜","胡瓜","扁蒲","豌豆","毛豆","甜椒","辣椒","番茄","梨瓜","菜豆","南瓜","甘藍","結球白菜","結球萵苣","菠菜","芥菜","小白菜","蕹菜","青江白菜","油菜","小芥菜","山蘇","葉萵苣","龍鬚菜","過溝菜蕨","芥藍","茼蒿","芹菜","大蒜","青蔥","洋蔥","蘿蔔","胡蘿蔔","馬鈴薯","韭菜","芋","球莖甘藍","甘藷","香菇","金針菇","杏鮑菇","芽菜類","冷凍蔬菜類"],
+    3:["花椰菜","青花菜","西瓜","甜瓜","胡瓜","苦瓜","絲瓜","扁蒲","茄子","長豇豆","豌豆","毛豆","甜椒","辣椒","番茄","梨瓜","越瓜","菜豆","南瓜","甘藍","結球白菜","結球萵苣","菠菜","葉用甘藷","小白菜","蕹菜","青江白菜","油菜","小芥菜","山蘇","葉萵苣","龍鬚菜","過溝菜蕨","芥藍","茼蒿","芹菜","大蒜","青蔥","洋蔥","蘿蔔","胡蘿蔔","馬鈴薯","韭菜","茭白筍","牛蒡","甘藷","香菇","金針菇","杏鮑菇","芽菜類","冷凍蔬菜類"],
+    4:["花椰菜","青花菜","西瓜","甜瓜","胡瓜","苦瓜","絲瓜","扁蒲","茄子","長豇豆","豌豆","毛豆","甜椒","辣椒","番茄","金針","梨瓜","越瓜","菜豆","南瓜","甘藍","結球白菜","葉用甘藷","山蘇","小白菜","蕹菜","青江白菜","油菜","小芥菜","葉萵苣","龍鬚菜","過溝菜蕨","芥藍","莧菜","芹菜","大蒜","青蔥","洋蔥","蘿蔔","胡蘿蔔","馬鈴薯","韭菜","茭白筍","桂竹筍","蘆筍","芋","甘藷","香菇","金針菇","杏鮑菇","芽菜類","冷凍蔬菜類"],
+    5:["西瓜","甜瓜","苦瓜","絲瓜","扁蒲","茄子","長豇豆","毛豆","甜椒","辣椒","番茄","金針","梨瓜","越瓜","南瓜","甘藍","葉用甘藷","小白菜","蕹菜","青江白菜","油菜","小芥菜","山蘇","葉萵苣","龍鬚菜","過溝菜蕨","芥藍","莧菜","芹菜","青蔥","洋蔥","胡蘿蔔","茭白筍","綠竹筍","馬鈴薯","箭竹筍","桂竹筍","蘆筍","韭菜","芋","甘藷","香菇","金針菇","杏鮑菇","芽菜類","冷凍蔬菜類"],
+    6:["西瓜","甜瓜","苦瓜","絲瓜","扁蒲","茄子","長豇豆","毛豆","甜椒","辣椒","番茄","金針","梨瓜","越瓜","甘藍","葉用甘藷","小白菜","蕹菜","青江白菜","油菜","小芥菜","山蘇","葉萵苣","龍鬚菜","過溝菜蕨","芥藍","莧菜","芹菜","青蔥","洋蔥","胡蘿蔔","茭白筍","綠竹筍","馬鈴薯","箭竹筍","麻竹筍","蘆筍","蓮藕","韭菜","芋","甘藷","香菇","金針菇","杏鮑菇","芽菜類","冷凍蔬菜類"],
+    7:["西瓜","苦瓜","絲瓜","扁蒲","茄子","長豇豆","毛豆","甜椒","辣椒","番茄","梨瓜","越瓜","甘藍","葉用甘藷","小白菜","蕹菜","青江白菜","油菜","小芥菜","山蘇","葉萵苣","龍鬚菜","過溝菜蕨","芥藍","莧菜","青蔥","洋蔥","胡蘿蔔","茭白筍","綠竹筍","馬鈴薯","箭竹筍","麻竹筍","蓮藕","韭菜","甘藷","香菇","金針菇","杏鮑菇","芽菜類","冷凍蔬菜類"],
+    8:["花椰菜","西瓜","甜瓜","胡瓜","苦瓜","絲瓜","扁蒲","茄子","長豇豆","毛豆","甜椒","辣椒","番茄","金針","梨瓜","越瓜","甘藍","結球白菜","葉用甘藷","小白菜","蕹菜","青江白菜","油菜","小芥菜","山蘇","葉萵苣","龍鬚菜","過溝菜蕨","芥藍","莧菜","青蔥","洋蔥","蘿蔔","胡蘿蔔","茭白筍","綠竹筍","馬鈴薯","箭竹筍","麻竹筍","蘆筍","蓮藕","韭菜","芋","甘藷","香菇","金針菇","杏鮑菇","芽菜類","冷凍蔬菜類"],
+    9:["花椰菜","西瓜","甜瓜","胡瓜","苦瓜","絲瓜","扁蒲","茄子","長豇豆","毛豆","豌豆","甜椒","辣椒","番茄","金針","梨瓜","越瓜","甘藍","結球白菜","葉用甘藷","小白菜","蕹菜","青江白菜","油菜","小芥菜","山蘇","葉萵苣","龍鬚菜","過溝菜蕨","芥藍","莧菜","青蔥","洋蔥","蘿蔔","胡蘿蔔","茭白筍","綠竹筍","箭竹筍","麻竹筍","蓮藕","韭菜","菱角","芋","甘藷","香菇","金針菇","杏鮑菇","芽菜類","冷凍蔬菜類"],
+    10:["花椰菜","西瓜","甜瓜","胡瓜","苦瓜","絲瓜","扁蒲","茄子","長豇豆","豌豆","毛豆","甜椒","辣椒","番茄","金針","梨瓜","越瓜","南瓜","甘藍","結球白菜","葉用甘藷","小白菜","蕹菜","青江白菜","油菜","小芥菜","山蘇","葉萵苣","龍鬚菜","過溝菜蕨","芥藍","茼蒿","莧菜","芹菜","青蔥","蘿蔔","胡蘿蔔","韭菜","茭白筍","綠竹筍","箭竹筍","麻竹筍","蘆筍","菱角","芋","球莖甘藍","甘藷","香菇","金針菇","杏鮑菇","芽菜類","冷凍蔬菜類"],
+    11:["花椰菜","青花菜","西瓜","甜瓜","胡瓜","苦瓜","絲瓜","扁蒲","茄子","豌豆","毛豆","甜椒","辣椒","番茄","梨瓜","越瓜","南瓜","甘藍","結球白菜","結球萵苣","菠菜","葉用甘藷","小白菜","蕹菜","青江白菜","油菜","小芥菜","山蘇","葉萵苣","龍鬚菜","過溝菜蕨","芥藍","茼蒿","芹菜","青蔥","蘿蔔","蘆筍","茭白筍","韭菜","菱角","芋","球莖甘藍","甘藷","香菇","金針菇","杏鮑菇","芽菜類","冷凍蔬菜類"],
+    12:["花椰菜","青花菜","甜瓜","胡瓜","扁蒲","豌豆","甜椒","辣椒","番茄","梨瓜","菜豆","南瓜","甘藍","結球白菜","結球萵苣","菠菜","小白菜","蕹菜","青江白菜","油菜","小芥菜","山蘇","葉萵苣","龍鬚菜","過溝菜蕨","芥藍","茼蒿","芹菜","青蔥","蘿蔔","胡蘿蔔","韭菜","芋","球莖甘藍","甘藷","香菇","金針菇","杏鮑菇","芽菜類","冷凍蔬菜類"]
+  };
+  var F = {
+    1:["番石榴","香蕉","桶柑","葡萄","梨子","釋迦","柳橙","椪柑","蓮霧","棗"],
+    2:["番石榴","香蕉","桶柑","釋迦","柳橙","蓮霧","棗"],
+    3:["番石榴","香蕉","桶柑","鳳梨","桃子","李子","釋迦","蓮霧"],
+    4:["番石榴","香蕉","桶柑","鳳梨","桃子","李子","葡萄","釋迦","蓮霧"],
+    5:["番石榴","香蕉","鳳梨","桃子","李子","葡萄","木瓜","梨子","蓮霧"],
+    6:["番石榴","香蕉","鳳梨","桃子","李子","葡萄","木瓜","梨子","芒果","荔枝","紅龍果"],
+    7:["番石榴","香蕉","鳳梨","桃子","李子","葡萄","木瓜","梨子","芒果","荔枝","紅龍果","釋迦"],
+    8:["番石榴","香蕉","鳳梨","桃子","葡萄","木瓜","梨子","芒果","紅龍果","釋迦","文旦柚"],
+    9:["番石榴","香蕉","鳳梨","葡萄","木瓜","梨子","紅龍果","釋迦","文旦柚","柿子"],
+    10:["番石榴","香蕉","葡萄","木瓜","梨子","紅龍果","文旦柚","柿子","柳橙","椪柑"],
+    11:["番石榴","香蕉","葡萄","木瓜","梨子","紅龍果","釋迦","柿子","柳橙","椪柑"],
+    12:["番石榴","香蕉","葡萄","木瓜","梨子","釋迦","柿子","柳橙","椪柑","蓮霧","棗"]
+  };
+  // 就算在產季也常有進口的品項（依進出口統計與公開報導整理，屬查證燈號）
+  var IMPORT_COMMON = {"葡萄":1,"椪柑":1,"柳橙":1,"桃子":1,"桶柑":1,"大蒜":1,"洋蔥":1,"馬鈴薯":1,"胡蘿蔔":1,"南瓜":1,"青花菜":1,"牛蒡":1};
+  var MONTH_LABEL = ["","一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"];
+  var XUN_LABEL = ["上旬","中旬","下旬"];
+
+  // 官方表把西瓜、甜瓜（香瓜）歸「蔬菜」（瓜果類農業分類），但消費者視為水果，改列水果
+  var RECLASS_TO_FRUIT = {"西瓜":1,"甜瓜":1};
+  for(var rm=1;rm<=12;rm++){
+    (function(m){
+      var moved=[];
+      V[m]=V[m].filter(function(n){ if(RECLASS_TO_FRUIT[n]){moved.push(n);return false;} return true; });
+      moved.forEach(function(n){ if(F[m].indexOf(n)<0) F[m].push(n); });
+    })(rm);
+  }
+
+  // 盛產期修正：官方「可供應月表」對少數品項高估（含庫存／設施），依實際農業資料收斂為真實盛產期
+  //  依據：農業部食農教育平臺、臺南/桃園區農改場、雲林時光正時盛產表
+  var SEASON_OVERRIDE = {
+    "番茄":[11,12,1,2,3,4],                    // 大番茄（牛番茄）：平地秋冬為主，夏季高溫多雨不適
+    "小番茄":[10,11,12,1,2,3,4,5,6],           // 小番茄（聖女等）：產區與海拔較廣，產季略長於大番茄
+    "花椰菜":[10,11,12,1,2,3,4,5],             // 涼季作物，非夏季
+    "扁蒲":[3,4,5,6,7,8,9,10],                 // 暖季瓜果
+    "甜瓜":[3,4,5,6,7,8,9]                     // 春末至初秋、夏季為盛產，非全年
+  };
+  Object.keys(SEASON_OVERRIDE).forEach(function(name){
+    var target={}; SEASON_OVERRIDE[name].forEach(function(m){target[m]=1;});
+    [V,F].forEach(function(map){
+      var belongs=false; for(var m=1;m<=12;m++){ if(map[m].indexOf(name)>=0){belongs=true;break;} }
+      if(!belongs) return;
+      for(var m=1;m<=12;m++){
+        var has=map[m].indexOf(name)>=0;
+        if(target[m]&&!has) map[m].push(name);
+        else if(!target[m]&&has) map[m]=map[m].filter(function(x){return x!==name;});
+      }
+    });
+  });
+
+  var index = {};
+  function addToIndex(map, kind){
+    for(var m=1;m<=12;m++) map[m].forEach(function(name){
+      if(!index[name]) index[name]={months:[],kind:kind};
+      if(index[name].months.indexOf(m)<0) index[name].months.push(m);
+    });
+  }
+  addToIndex(V,"veg"); addToIndex(F,"fruit");
+  var allNames = Object.keys(index).sort(function(a,b){return b.length-a.length});
+
+  function prevM(m){return m===1?12:m-1;}
+  function nextM(m){return m===12?1:m+1;}
+
+  var today = new Date();
+  var curMonth = today.getMonth()+1;
+  var curDay = today.getDate();
+  var curXun = curDay<=10?0:(curDay<=20?1:2);
+  var curPos = (curMonth-1)*3 + curXun;
+
+  var YR_MIN = 11; // 產季≥11個月視為「全年供應」，非季節指標
+  function isYR(name){ return index[name].months.length>=YR_MIN; }
+  // 從當月往前算已連續在產季幾個月（0＝本月剛進場，越小＝越晚進入＝越新）
+  function sinceEntry(name, month){
+    var months=index[name].months, c=0, m=prevM(month);
+    while(months.indexOf(m)>=0 && c<12){ c++; m=prevM(m); }
+    return c;
+  }
+
+  // ---- 當月「當季」（非全年）品項，含標籤與排序 ----
+  function itemsFor(map, month, xun){
+    var list = map[month], prev = map[prevM(month)], next = map[nextM(month)];
+    return list.filter(function(name){ return !isYR(name); }).map(function(name){
+      var isNew = prev.indexOf(name)<0;
+      var isLast = next.indexOf(name)<0;
+      var tag = null;
+      if(isNew && xun<=1) tag="new";          // 上、中旬：剛上市
+      else if(isLast && xun>=1) tag="last";     // 中、下旬：把握最後
+      return {name:name, tag:tag, imp:!!IMPORT_COMMON[name]};
+    }).sort(function(a,b){
+      // 主：產季越短越前（凸顯季節限定）；次：越晚進入當月越前（新進優先）
+      var dl = index[a.name].months.length - index[b.name].months.length;
+      if(dl) return dl;
+      return sinceEntry(a.name,month) - sinceEntry(b.name,month);
+    });
+  }
+  // ---- 全年供應品項（固定，不隨月變）----
+  function yearRoundItems(map){
+    var seen={}, out=[];
+    for(var m=1;m<=12;m++) map[m].forEach(function(n){ if(isYR(n)&&!seen[n]){seen[n]=1;out.push({name:n,tag:null,imp:!!IMPORT_COMMON[n]});} });
+    return out.sort(function(a,b){ return index[a.name].months.length - index[b.name].months.length || (a.name>b.name?1:-1); });
+  }
+
+  // ---- FLIP render ----
+  function chipInner(it){
+    var s = it.name;
+    if(it.tag==="new") s += '<span class="tag new">↑新上市</span>';
+    else if(it.tag==="last") s += '<span class="tag last">↓把握最後</span>';
+    if(it.imp) s += '<span class="flag" title="就算產季也常有進口，務必查產地">⚑</span>';
+    return s;
+  }
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function renderChips(container, kind, items){
+    // 1. 讀取現有節點與位置
+    var oldMap = {};
+    Array.prototype.forEach.call(container.querySelectorAll(".chip"), function(n){
+      if(n.classList.contains("leaving")) return;
+      oldMap[n.dataset.name] = {node:n, rect:n.getBoundingClientRect()};
+    });
+    var newSet = {}; items.forEach(function(it){newSet[it.name]=it;});
+    var crect = container.getBoundingClientRect();
+
+    // 2. 退場：舊有但新集合沒有的
+    Object.keys(oldMap).forEach(function(name){
+      if(newSet[name]) return;
+      var o = oldMap[name], node=o.node;
+      if(reduceMotion){ if(node.parentNode) node.parentNode.removeChild(node); return; }
+      node.style.position="absolute";
+      node.style.left=(o.rect.left-crect.left)+"px";
+      node.style.top=(o.rect.top-crect.top)+"px";
+      node.style.width=o.rect.width+"px";
+      node.classList.add("leaving");
+      var done=false, rm=function(){ if(!done){done=true; if(node.parentNode) node.parentNode.removeChild(node);} };
+      node.addEventListener("transitionend", rm);
+      setTimeout(rm, 600);
+    });
+
+    // 3. 依新順序建立/重用節點（重用者更新內容），append 使順序正確
+    items.forEach(function(it){
+      var node, entering=false;
+      if(oldMap[it.name]){ node=oldMap[it.name].node; node.innerHTML=chipInner(it); }
+      else { node=document.createElement("span"); node.className="chip entering"; node.dataset.name=it.name; node.innerHTML=chipInner(it); entering=true; }
+      node.classList.toggle("imp", it.imp);
+      node.tabIndex=0; node.dataset.kind=kind;
+      node.setAttribute("aria-label", it.name+"，查看產季走勢");
+      container.appendChild(node);
+    });
+
+    if(reduceMotion) return;
+
+    // 4. 強制 reflow，量測新位置
+    container.offsetWidth;
+    var moves=[];
+    items.forEach(function(it){
+      var node = container.querySelector('.chip[data-name="'+cssEsc(it.name)+'"]');
+      if(!node) return;
+      if(oldMap[it.name]){
+        var oldRect=oldMap[it.name].rect, newRect=node.getBoundingClientRect();
+        var dx=oldRect.left-newRect.left, dy=oldRect.top-newRect.top;
+        if(dx||dy) moves.push({node:node,dx:dx,dy:dy});
+      }
+    });
+
+    // 5. 套用反向位移（無過渡），下一幀放行
+    moves.forEach(function(mv){
+      mv.node.style.transition="none";
+      mv.node.style.transform="translate("+mv.dx+"px,"+mv.dy+"px)";
+    });
+    requestAnimationFrame(function(){
+      moves.forEach(function(mv){ mv.node.style.transition=""; mv.node.style.transform=""; });
+      Array.prototype.forEach.call(container.querySelectorAll(".chip.entering"), function(n){
+        n.classList.remove("entering");
+      });
+    });
+  }
+  function cssEsc(s){ return s.replace(/["\\]/g,"\\$&"); }
+
+  // ---- board ----
+  var viewPos = curPos;
+  function renderBoard(){
+    var month = Math.floor(viewPos/3)+1;
+    var xun = viewPos%3;
+    var isNow = viewPos===curPos;
+    document.getElementById("boardMonth").innerHTML =
+      MONTH_LABEL[month] + ' <span style="color:var(--accent)">' + XUN_LABEL[xun] + '</span>' +
+      '<small>' + (isNow?'現在':'產季一覽') + '</small>';
+    var dstr = curMonth+"月"+curDay+"日";
+    document.getElementById("boardDate").innerHTML =
+      isNow ? '今天 <b>'+dstr+'</b>　自動對齊此刻' : '你正在看 <b>'+MONTH_LABEL[month]+XUN_LABEL[xun]+'</b>';
+
+    var vItems=itemsFor(V,month,xun), fItems=itemsFor(F,month,xun);
+    renderChips(document.getElementById("vegChips"),"veg",vItems);
+    renderChips(document.getElementById("fruitChips"),"fruit",fItems);
+    document.getElementById("vegCount").textContent="當季 "+vItems.length+" 種";
+    document.getElementById("fruitCount").textContent="當季 "+fItems.length+" 種";
+    renderSpotlight(vItems, fItems);
+  }
+  // 今日焦點：把「新上市」品項挑出來放最上面，減少一次要看 40+ 種的資訊壓力
+  function renderSpotlight(vItems, fItems){
+    var sp=document.getElementById("spotlight");
+    var picks = vItems.filter(function(it){return it.tag==="new";}).map(function(it){return {it:it,kind:"veg"};})
+      .concat(fItems.filter(function(it){return it.tag==="new";}).map(function(it){return {it:it,kind:"fruit"};}))
+      .slice(0,6);
+    if(!picks.length){ sp.classList.remove("show"); sp.innerHTML=""; return; }
+    sp.innerHTML = '<span class="lbl">🆕 這旬新上市</span>' + picks.map(function(p){
+      return '<span class="chip '+p.kind+'" data-name="'+p.it.name+'" data-kind="'+p.kind+'" tabindex="0" aria-label="'+p.it.name+'，查看產季走勢">'+p.it.name+'</span>';
+    }).join("");
+    sp.classList.add("show");
+  }
+  // 全年供應區塊固定，只渲染一次
+  function renderYearRound(){
+    [["veg",V,"vegYr","vegYrSep"],["fruit",F,"fruitYr","fruitYrSep"]].forEach(function(cfg){
+      var items=yearRoundItems(cfg[1]);
+      var cont=document.getElementById(cfg[2]), sep=document.getElementById(cfg[3]);
+      if(!items.length){ sep.classList.remove("show"); return; }
+      sep.textContent="全年供應 · "+items.length+" 種 · 季節非判斷依據";
+      sep.classList.add("show");
+      cont.innerHTML="";
+      items.forEach(function(it){
+        var node=document.createElement("span");
+        node.className="chip"+(it.imp?" imp":""); node.dataset.name=it.name; node.dataset.kind=cfg[0];
+        node.tabIndex=0; node.setAttribute("aria-label",it.name+"，全年供應，查看產季走勢");
+        node.innerHTML=chipInner(it);
+        cont.appendChild(node);
+      });
+    });
+  }
+
+  // ---- timeline ----
+  var slider=document.getElementById("slider");
+  var bubble=document.getElementById("bubble");
+  slider.value=curPos;
+  // month labels
+  var tlM=document.getElementById("tlMonths");
+  for(var mm=1;mm<=12;mm++){(function(m){
+    var d=document.createElement("div");
+    d.className="tl-m"+(m===curMonth?" cur":"");
+    d.textContent=m;
+    d.addEventListener("click",function(){ slider.value=(m-1)*3+1; onSlide(); });
+    tlM.appendChild(d);
+  })(mm);}
+  // today marker position
+  document.getElementById("tlToday").style.left = (curPos/35*100)+"%";
+
+  function updateTL(){
+    var pct = slider.value/35*100;
+    var month=Math.floor(viewPos/3)+1, xun=viewPos%3;
+    bubble.innerHTML = MONTH_LABEL[month] + '<span class="sub">'+XUN_LABEL[xun]+'</span>';
+    // clamp bubble within [4%,96%]
+    var bp = Math.max(4, Math.min(96, pct));
+    bubble.style.left = bp+"%";
+    Array.prototype.forEach.call(tlM.children,function(c,i){
+      c.classList.toggle("cur",(i+1)===month);
+    });
+  }
+  var todayBtn=document.getElementById("todayBtn");
+  function onSlide(){
+    var v=parseInt(slider.value,10);
+    if(v!==viewPos){ viewPos=v; renderBoard(); }
+    updateTL();
+    todayBtn.disabled = viewPos===curPos;
+  }
+  slider.addEventListener("input", onSlide);
+  todayBtn.addEventListener("click", function(){ slider.value=curPos; hidePopNow(); onSlide(); });
+  todayBtn.disabled = true;
+
+  // ---- datalist & suggestions ----
+  var dl=document.getElementById("allList");
+  allNames.slice().sort().forEach(function(n){var o=document.createElement("option");o.value=n;dl.appendChild(o);});
+  var SUGGEST=[["高麗菜","甘藍"],["結球白菜","結球白菜"],["芒果","芒果"],["荔枝","荔枝"],["蒜","大蒜"],["洋蔥","洋蔥"],["葡萄","葡萄"],["椪柑","椪柑"],["番茄","番茄"],["小番茄","小番茄"],["蓮霧","蓮霧"]];
+  var sgWrap=document.getElementById("suggest");
+  SUGGEST.forEach(function(pair){
+    if(!index[pair[1]]) return;
+    var b=document.createElement("button");
+    b.className="sg";b.type="button";b.textContent=pair[0];
+    b.addEventListener("click",function(){document.getElementById("q").value=pair[1];runLookup(pair[1],pair[0]);});
+    sgWrap.appendChild(b);
+  });
+
+  // 回傳所有符合的候選名稱；完全同名時只回傳唯一一筆，避免對「瓜」「豆」這類單字模糊比對亂猜
+  function findMatches(input){
+    input=(input||"").trim(); if(!input) return [];
+    if(index[input]) return [input];
+    var out=[];
+    allNames.forEach(function(n){ if(n.indexOf(input)>=0 && out.indexOf(n)<0) out.push(n); });
+    allNames.forEach(function(n){ if(input.indexOf(n)>=0 && out.indexOf(n)<0) out.push(n); });
+    return out;
+  }
+  function esc(t){var d=document.createElement("div");d.textContent=t;return d.innerHTML;}
+  function monthRange(months){
+    var s=months.slice().sort(function(a,b){return a-b;});
+    var wrap = s.indexOf(12)>=0 && s.indexOf(1)>=0 && s.length<12;
+    if(wrap){
+      var start=null;
+      for(var k=1;k<=12;k++){ if(s.indexOf(k)>=0 && s.indexOf(k===1?12:k-1)<0){start=k;break;} }
+      if(start){ var seq=[],c=start; for(var n=0;n<s.length;n++){seq.push(c);c=c===12?1:c+1;} return seq[0]+"–"+seq[seq.length-1]+"月"; }
+    }
+    var cont=true; for(var j=1;j<s.length;j++){ if(s[j]!==s[j-1]+1){cont=false;break;} }
+    if(cont) return s.length===1?s[0]+"月":s[0]+"–"+s[s.length-1]+"月";
+    return s.join("、")+"月";
+  }
+  function runLookup(rawInput, displayLabel, targetEl){
+    var resultEl = targetEl || document.getElementById("result");
+    var matches = findMatches(rawInput);
+    if(!matches.length){
+      resultEl.className="lookup-result show";
+      resultEl.innerHTML='<div class="verdict v-year"><span class="vi">🔎</span><span><span class="vt">查無「'+esc(rawInput)+'」的月表資料</span>這份官方月表以大宗蔬果為主，未涵蓋所有品項（如草莓多為 12–4 月，產季外的「本地草莓」要特別留意）。可改用產銷履歷 QR 或原產地標示查證。</span></div>';
+      return;
+    }
+    if(matches.length>1){
+      var shown=matches.slice(0,12);
+      resultEl.className="lookup-result show";
+      resultEl.innerHTML='<div class="verdict v-year"><span class="vi">🔎</span><span><span class="vt">找到 '+matches.length+' 個符合「'+esc(rawInput)+'」的品項</span>不確定是哪一個，先點選你要查的：</span></div>'+
+        '<div class="suggest" style="margin-top:12px">'+shown.map(function(n){return '<button type="button" class="sg" data-pick="'+esc(n)+'">'+esc(n)+'</button>';}).join('')+'</div>';
+      Array.prototype.forEach.call(resultEl.querySelectorAll('[data-pick]'), function(btn){
+        btn.addEventListener('click', function(){ runLookup(btn.dataset.pick, null, resultEl); });
+      });
+      return;
+    }
+    var name=matches[0];
+    var info=index[name];
+    var months=info.months.slice().sort(function(a,b){return a-b;});
+    var inSeason=months.indexOf(curMonth)>=0;
+    var yearRound=months.length>=YR_MIN;
+    var kindWord=info.kind==="veg"?"蔬菜":"水果";
+    var label=displayLabel&&displayLabel!==name?esc(displayLabel)+"（"+esc(name)+"）":esc(name);
+    var vhtml;
+    if(yearRound){
+      vhtml='<div class="verdict v-year"><span class="vi">♻️</span><span><span class="vt">'+label+'：全年供應</span>這類品項幾乎整年都有，<b>季節無法當判斷依據</b>。想確認來源，請認明產銷履歷標章、掃 QR，或看原產地標示。</span></div>';
+    } else if(inSeason){
+      vhtml='<div class="verdict v-good"><span class="vi">✅</span><span><span class="vt">現在（'+curMonth+'月）正是產季</span>'+label+' 本月是台灣本地'+kindWord+'的盛產期，標「在地」合理，可以安心挑當季的買。</span></div>';
+    } else {
+      vhtml='<div class="verdict v-warn"><span class="vi">🔍</span><span><span class="vt">現在（'+curMonth+'月）不是它的產季</span>'+label+' 台灣本地產季是 <b>'+monthRange(months)+'</b>。此時若標「台灣在地」要特別留意來源——<b>很可能是進口或洗產地</b>。請查產銷履歷或原產地標示再決定。</span></div>';
+    }
+    var impHtml = IMPORT_COMMON[name] ? '<div class="imp-note"><span class="ii">⚑</span><span>提醒：<b>'+esc(name)+' 就算在台灣產季，市面上也常有進口貨</b>（進口大宗品項）。光看季節不夠，務必看原產地標示或掃產銷履歷確認。</span></div>' : '';
+    var cells='';
+    for(var m=1;m<=12;m++){
+      var on=months.indexOf(m)>=0;
+      var cls="cell"+(on?(info.kind==="fruit"?" fruit-on":" on"):"")+(m===curMonth?" cur":"");
+      cells+='<div class="'+cls+'">'+m+'</div>';
+    }
+    var stripNote=yearRound?"整年皆有供應。":"綠／橘＝台灣本地產季　·　外框粗線＝現在這個月";
+    resultEl.className="lookup-result show";
+    resultEl.innerHTML=vhtml+impHtml+'<div class="strip" aria-label="全年產季">'+cells+'</div><div class="strip-note">'+stripNote+'</div>';
+  }
+  function wireLookupInput(inputEl, resultEl){
+    inputEl.addEventListener("input",function(){
+      var v=inputEl.value.trim();
+      if(v.length>=1) runLookup(v, null, resultEl);
+      else { resultEl.className="lookup-result"; resultEl.innerHTML=""; }
+    });
+    inputEl.addEventListener("change",function(){ if(inputEl.value.trim()) runLookup(inputEl.value.trim(), null, resultEl); });
+  }
+  var qEl=document.getElementById("q");
+  wireLookupInput(qEl, document.getElementById("result"));
+  var qTopEl=document.getElementById("qTop");
+  wireLookupInput(qTopEl, document.getElementById("resultTop"));
+
+  // ---- theme ----
+  var root=document.documentElement;
+  document.getElementById("themeBtn").addEventListener("click",function(){
+    var cur=root.getAttribute("data-theme");
+    var sysDark=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;
+    var isDark=cur==="dark"||(!cur&&sysDark);
+    root.setAttribute("data-theme", isDark?"light":"dark");
+  });
+
+  // ---- 產季走勢 popover ----
+  var pop=document.createElement("div"); pop.className="pop"; pop.setAttribute("role","tooltip"); pop.setAttribute("aria-hidden","true");
+  document.body.appendChild(pop);
+  var popTimer=null;
+
+  function seasonForItem(name){
+    var months=index[name].months, arr=[];
+    for(var m=1;m<=12;m++){
+      if(months.indexOf(m)<0){ arr.push(0); continue; }
+      var hp=months.indexOf(prevM(m))>=0, hn=months.indexOf(nextM(m))>=0;
+      arr.push(hp&&hn?1:0.5);
+    }
+    return arr;
+  }
+  // 價格區間示意：由供應量反推（供應越少＝價格越可能偏高），非實際市場調查
+  function priceForItem(season){ return season.map(function(v){ return 1-v; }); }
+
+  function curveSVG(season, price, kind, selMonth){
+    var w=228,h=64,padX=8,topPad=8,botPad=14, innerH=h-topPad-botPad;
+    function X(i){return padX + i/11*(w-2*padX);}
+    function Y(v){return topPad + (1-v)*innerH;}
+    var base=Y(0);
+    var pts=[]; for(var i=0;i<12;i++) pts.push([X(i),Y(season[i])]);
+    var poly=pts.map(function(p){return p[0].toFixed(1)+" "+p[1].toFixed(1);});
+    var line="M"+poly.join(" L ");
+    var area="M "+X(0).toFixed(1)+" "+base.toFixed(1)+" L "+poly.join(" L ")+" L "+X(11).toFixed(1)+" "+base.toFixed(1)+" Z";
+    var ppts=[]; for(var pi=0;pi<12;pi++) ppts.push(X(pi).toFixed(1)+" "+Y(price[pi]).toFixed(1));
+    var priceLine="M"+ppts.join(" L ");
+
+    var ci=curMonth-1, cx=X(ci), cy=Y(season[ci]);
+    var selCi=selMonth-1, hasSel=selCi!==ci;
+
+    var labels=""; for(var m=0;m<12;m++){
+      var cls = m===ci ? " cur" : (hasSel && m===selCi ? " sel" : "");
+      labels+='<text class="mlabel'+cls+'" x="'+X(m).toFixed(1)+'" y="'+(h-4)+'" text-anchor="middle">'+(m+1)+'</text>';
+    }
+    var anchor=ci<=1?"start":(ci>=10?"end":"middle");
+    var nowtx='<text class="nowtx" x="'+cx.toFixed(1)+'" y="6" text-anchor="'+anchor+'">今天</text>';
+    var selMarkup="";
+    if(hasSel){
+      var sx=X(selCi), sy=Y(season[selCi]);
+      var sAnchor=selCi<=1?"start":(selCi>=10?"end":"middle");
+      // 若與今天同側太近，把標籤挪到底部避免重疊
+      var selLabelY = Math.abs(sx-cx)<20 ? (h-22) : 6;
+      selMarkup =
+        '<line class="sel" x1="'+sx.toFixed(1)+'" y1="'+topPad+'" x2="'+sx.toFixed(1)+'" y2="'+base.toFixed(1)+'"/>'+
+        '<circle class="seldot" cx="'+sx.toFixed(1)+'" cy="'+sy.toFixed(1)+'" r="2.6"/>'+
+        '<text class="seltx" x="'+sx.toFixed(1)+'" y="'+selLabelY+'" text-anchor="'+sAnchor+'">查看中</text>';
+    }
+    return '<svg class="curve '+kind+'" viewBox="0 0 '+w+' '+h+'" role="img" aria-label="產季與價格走勢圖">'+
+      '<line class="base" x1="'+padX+'" y1="'+base.toFixed(1)+'" x2="'+(w-padX)+'" y2="'+base.toFixed(1)+'"/>'+
+      '<path class="area" d="'+area+'"/>'+
+      '<path class="price" d="'+priceLine+'"/>'+
+      '<path class="line" d="'+line+'"/>'+
+      selMarkup+
+      '<line class="now" x1="'+cx.toFixed(1)+'" y1="'+topPad+'" x2="'+cx.toFixed(1)+'" y2="'+base.toFixed(1)+'"/>'+
+      '<circle class="nowdot" cx="'+cx.toFixed(1)+'" cy="'+cy.toFixed(1)+'" r="2.6"/>'+
+      nowtx+labels+'</svg>';
+  }
+  function buildPop(name, kind){
+    var months=index[name].months.slice().sort(function(a,b){return a-b;});
+    var yearRound=months.length>=YR_MIN, inSeason=months.indexOf(curMonth)>=0;
+    var st = yearRound?["year","全年供應 · 季節無法判斷"]
+      : inSeason?["good","● 現在（"+curMonth+"月）正當季"]
+      : ["warn","▲ 現在（"+curMonth+"月）非產季，標在地要小心"];
+    var rangeTxt = yearRound?"全年":monthRange(months);
+    var season = yearRound? [1,1,1,1,1,1,1,1,1,1,1,1] : seasonForItem(name);
+    var price = priceForItem(season);
+    var selMonth = Math.floor(viewPos/3)+1;
+    var imp = IMPORT_COMMON[name] ? '<div class="pop-imp">⚑ 就算產季也常有進口，務必查產地／履歷</div>' : '';
+    var selNote = selMonth!==curMonth ? '　·　查看中：'+MONTH_LABEL[selMonth] : '';
+    pop.innerHTML =
+      '<div class="pop-h '+kind+'"><span class="pd"></span><b>'+esc(name)+'</b></div>'+
+      '<div class="pop-status '+st[0]+'">'+st[1]+'</div>'+
+      curveSVG(season,price,kind,selMonth)+
+      '<div class="pop-legend">'+
+        '<span><i class="now"></i>今天</span>'+
+        (selMonth!==curMonth ? '<span><i class="sel"></i>查看中月份</span>' : '')+
+        '<span><i class="price"></i>價格區間示意</span>'+
+      '</div>'+
+      '<div class="pop-cap">曲線依官方月表推估，非實測數據。產季：'+rangeTxt+selNote+'</div>'+ imp;
+  }
+  function placePop(chip){
+    var r=chip.getBoundingClientRect();
+    var pw=pop.offsetWidth, ph=pop.offsetHeight;
+    var left=Math.max(8, Math.min(window.innerWidth-pw-8, r.left+r.width/2-pw/2));
+    var top=r.top-ph-10; if(top<8) top=r.bottom+10;
+    pop.style.left=left+"px"; pop.style.top=top+"px";
+  }
+  function showPop(chip){
+    var name=chip.dataset.name, kind=chip.dataset.kind||"veg";
+    if(!name||!index[name]) return;
+    clearTimeout(popTimer);
+    buildPop(name,kind); pop.dataset.name=name;
+    pop.classList.add("show"); pop.setAttribute("aria-hidden","false");
+    placePop(chip);
+  }
+  function hidePop(delay){
+    clearTimeout(popTimer);
+    popTimer=setTimeout(function(){ pop.classList.remove("show"); pop.setAttribute("aria-hidden","true"); }, delay||90);
+  }
+  function hidePopNow(){ clearTimeout(popTimer); pop.classList.remove("show"); pop.setAttribute("aria-hidden","true"); }
+  [document.getElementById("vegChips"), document.getElementById("fruitChips"),
+   document.getElementById("vegYr"), document.getElementById("fruitYr"),
+   document.getElementById("spotlight")].forEach(function(c){
+    c.addEventListener("mouseover",function(e){var ch=e.target.closest(".chip"); if(ch&&!ch.classList.contains("leaving")) showPop(ch);});
+    c.addEventListener("mouseout",function(e){var ch=e.target.closest(".chip"); if(ch) hidePop();});
+    c.addEventListener("focusin",function(e){var ch=e.target.closest(".chip"); if(ch) showPop(ch);});
+    c.addEventListener("focusout",function(){ hidePop(); });
+    c.addEventListener("click",function(e){var ch=e.target.closest(".chip"); if(!ch) return;
+      if(pop.classList.contains("show")&&pop.dataset.name===ch.dataset.name) hidePopNow(); else showPop(ch);
+    });
+  });
+  document.addEventListener("click",function(e){ if(!e.target.closest(".chip")&&!e.target.closest(".pop")) hidePopNow(); });
+  window.addEventListener("scroll",function(){ hidePopNow(); }, true);
+  slider.addEventListener("input", hidePopNow);
+
+  // ---- init ----
+  renderYearRound();
+  renderBoard();
+  updateTL();
+})();
+</script>
