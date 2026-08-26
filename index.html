@@ -101,6 +101,8 @@
     box-shadow:var(--shadow);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
   }
   .dial-head:focus-within{border-color:var(--season)}
+  /* 量 iPhone 底部安全區用的探針：env() 只能可靠地從實際版面讀回來 */
+  .dial-safe{position:absolute;left:0;bottom:0;width:0;height:env(safe-area-inset-bottom,0px);pointer-events:none}
   .dial-read{font-family:"Noto Serif TC",serif;font-weight:700;font-size:14.5px;color:var(--ink);white-space:nowrap;letter-spacing:.02em}
   .dial-read .jq{
     margin-left:9px;padding:2px 8px;border-radius:999px;
@@ -108,11 +110,12 @@
     color:var(--season);background:color-mix(in srgb,var(--season) 15%,transparent);
   }
   .dial-svg{
-    display:block;position:relative;z-index:1;pointer-events:none;touch-action:none;
+    display:block;position:relative;z-index:1;pointer-events:none;touch-action:pan-y;
     -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 11%,#000 89%,transparent 100%);
     mask-image:linear-gradient(90deg,transparent 0,#000 11%,#000 89%,transparent 100%);
   }
-  .dial-svg .face{pointer-events:auto;cursor:grab;touch-action:none}
+  /* pan-y：直向滑動交回瀏覽器捲頁面，只有橫向的拖曳才進來轉盤 */
+  .dial-svg .face{pointer-events:auto;cursor:grab;touch-action:pan-y}
   .dial.dragging .dial-svg .face{cursor:grabbing}
   .dial-svg .rim{fill:none;stroke:var(--line);stroke-width:1.5}
   .dial-svg .sheen{fill:none;stroke:var(--raise);stroke-width:2;opacity:.7}
@@ -476,6 +479,7 @@
     <input class="sr-only" type="range" id="slider" min="0" max="35" step="1" value="0" aria-label="選擇月份與旬（上中下旬）">
     <button class="today-btn" id="todayBtn" type="button">回到今天</button>
   </div>
+  <i class="dial-safe" id="dialSafe" aria-hidden="true"></i>
   <svg class="dial-svg" id="dialSvg" role="presentation"></svg>
 </div>
 
@@ -747,6 +751,7 @@
   var dial=document.getElementById("dial");
   var dialSvg=document.getElementById("dialSvg");
   var dialRead=document.getElementById("dialRead");
+  var dialSafe=document.getElementById("dialSafe");
   slider.value=curPos;
 
   var DIM=[31,28,31,30,31,30,31,31,30,31,30,31];
@@ -783,15 +788,19 @@
   function atAngle(a,inner){ return '<g transform="rotate('+a.toFixed(2)+' 0 '+R+')">'+inner+'</g>'; }
 
   function buildDial(){
-    W=Math.round(Math.min(document.documentElement.clientWidth||360, 620));
+    W=Math.round(Math.min(document.documentElement.clientWidth||window.innerWidth||360, 620));
     var half=W/2;
     R=Math.round(W*0.707);                                   // 可見弧 ≒ 90°
     var sag=R-Math.sqrt(R*R-half*half);                      // 圓弧在畫面邊緣的下沉量
     // 視窗矮的時候不能讓盤吃掉半個畫面：壓低弧高、把圓放大變平，可見月份會多一點
-    var vh=document.documentElement.clientHeight||700;
-    var maxSag=Math.max(26, Math.min(240, Math.round(vh*0.30)) - RING - 16);
+    // 這頁沒有 DOCTYPE（quirks mode），documentElement.clientHeight 會回傳整份文件的高度
+    // 而不是視窗高度，只有 innerHeight 可信
+    var vh=window.innerHeight||document.documentElement.clientHeight||700;
+    var maxSag=Math.max(26, Math.min(240, Math.round(vh*0.30)) - RING - 16 - (dialSafe?dialSafe.offsetHeight:0));
     if(sag>maxSag){ sag=maxSag; R=Math.round((sag*sag+half*half)/(2*sag)); }
-    H=Math.round(sag+RING+16);
+    // 盤面往下長進安全區把 home indicator 蓋掉，刻度仍貼著弧線不動
+    var safeB=dialSafe?Math.round(dialSafe.offsetHeight):0;
+    H=Math.round(sag+RING+16)+safeB;
     var parts=[];
 
     parts.push('<defs>'+
@@ -836,6 +845,7 @@
     dialSvg.innerHTML=parts.join("");
     spinG=document.getElementById("dialSpin");
     jqNodes=Array.prototype.slice.call(dialSvg.querySelectorAll("text.jq"));
+    lastW=document.documentElement.clientWidth||window.innerWidth; lastH=window.innerHeight;
     applyRot(); updateDial(); watchBoard();
   }
 
@@ -894,7 +904,8 @@
     dial.classList.add("dragging");
     try{ dialSvg.setPointerCapture(e.pointerId); }catch(_){}
     hidePopNow();
-    e.preventDefault();
+    // 觸控要留給 touch-action 仲裁方向，preventDefault 只用來擋滑鼠的文字選取
+    if(e.pointerType!=="touch") e.preventDefault();
   });
   dialSvg.addEventListener("pointermove",function(e){
     if(!dragging) return;
@@ -917,7 +928,12 @@
     inertia();
   }
   dialSvg.addEventListener("pointerup",endDrag);
-  dialSvg.addEventListener("pointercancel",endDrag);
+  // 瀏覽器判定這是直向捲動時會送 pointercancel；那不是點選，不能觸發跳格
+  dialSvg.addEventListener("pointercancel",function(){
+    if(!dragging) return;
+    dragging=false; spinV=0; dial.classList.remove("dragging");
+    glideTo(Math.round(rot/10)*10);
+  });
 
   dialSvg.addEventListener("wheel",function(e){
     var d=Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:e.deltaY;
@@ -962,9 +978,15 @@
     rot=Math.round(rot/10)*10; applyRot(); commit(); settle();
   });
 
-  var rzT=0;
+  var rzT=0, lastW=0, lastH=0;
   window.addEventListener("resize",function(){
+    var w=document.documentElement.clientWidth||window.innerWidth, h=window.innerHeight;
+    // iOS 捲動時網址列收合就會觸發 resize，只有寬度變或高度大幅變動才值得重建
+    if(w===lastW && Math.abs(h-lastH)<140) return;
     clearTimeout(rzT); rzT=setTimeout(buildDial,150);
+  });
+  window.addEventListener("orientationchange",function(){
+    clearTimeout(rzT); rzT=setTimeout(buildDial,220);
   });
 
   // ---- datalist & suggestions ----
